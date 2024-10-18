@@ -1,0 +1,12 @@
+title: Computer Networking and stuff
+description: >- 
+  A blog about Software Engineering / Networking
+author:
+  name: Guvenc Gulce
+  bio: Software Engineer
+  social:
+    github: https://github.com/guvenc
+    linkedin: https://linkedin.com/in/guvencgulce
+theme: minima
+plugins:
+  - jekyll-feed
