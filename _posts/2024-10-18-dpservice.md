@@ -6,8 +6,7 @@ categories: [Software Engineering]
 ---
 
 #### Summary:
-
-Discover how the open-source dpservice leverages DPDK for high-speed data plane performance, enabling advanced L3 routing and SDN capabilities on compute nodes and SmartNICs. Dive into its architecture, features, and potential applications in modern network environments.
+Dataplane Service, in short [dpservice](https://github.com/ironcore-dev/dpservice) is a [DPDK](https://www.dpdk.org/) based Software Router to divide your datacenter network into [VPCs](https://en.wikipedia.org/wiki/Virtual_private_cloud) (IPv4 and IPv6 overlays) easily with Kubernetes integration and accompanied Network Functions like Loadbalancer, NAT, Connection Tracking.
 
 #### Accelerating Network Performance with dpservice: An In-Depth Look
 
@@ -15,7 +14,7 @@ In the rapidly evolving world of network infrastructure, the need for efficient,
 
 ##### What is dpservice?
 
-dpservice is a DPDK-based data plane service designed to function as a fast L3 router and SDN (Software-Defined Networking) enabler. It can be deployed on compute nodes or SmartNICs (Smart Network Interface Cards), providing flexible and scalable network solutions. It can create overlay networks and VPC like isolation, including several network functions. At its core, dpservice uses the DPDK Graph Framework, which allows for efficient packet processing and flow management.
+dpservice is a DPDK-based data plane service designed to function as a fast L3 router and SDN (Software-Defined Networking) enabler. It can be deployed on compute nodes or [SmartNICs](https://en.wikipedia.org/wiki/Data_processing_unit) (Smart Network Interface Cards), providing flexible and scalable network solutions. It can create overlay networks and VPC like isolation, including several network functions. At its core, dpservice uses the DPDK Graph Framework, which allows for efficient packet processing and flow management.
 
 ##### Key Features of dpservice
 
@@ -25,7 +24,7 @@ dpservice is a DPDK-based data plane service designed to function as a fast L3 r
    - *Offloaded Mode:* The first packet of each flow is processed in software, and subsequent packets are offloaded to hardware for accelerated processing.
    - *Non-Offloaded Mode:* All traffic is handled in software using Poll Mode Drivers (PMDs) and dedicated CPU cores.
 2. **SR-IOV Support:**
-   Single Root I/O Virtualization (SR-IOV) is supported by dpservice, which allows multiple virtual machines to share a single physical network interface card (NIC). This enhances performance by reducing the overhead associated with virtualization.
+   Single Root I/O Virtualization ([SR-IOV](https://en.wikipedia.org/wiki/Single-root_input/output_virtualization)) is supported by dpservice, which allows multiple virtual machines to share a single physical network interface card (NIC). This enhances performance by reducing the overhead associated with virtualization.
 3. **Advanced Networking Capabilities:**
    dpservice offers a wide range of networking features essential for modern network environments:
 
@@ -36,25 +35,26 @@ dpservice is a DPDK-based data plane service designed to function as a fast L3 r
 4. **Horizontally Scalable NAT Gateways:**
    The NAT gateway functionality in dpservice is horizontally scalable, meaning each deployed dpservice can handle part of the NAT Gateway traffic and more dpservices instances can be added to handle more traffic. This scalability is crucial for managing large-scale network environments efficiently.
 5. **Maglev Hashing for Loadbalancing:**
-   dpservice employs Maglev hashing for load balancing, a technique that ensures even, sticky and addition/deletion resistant distribution of traffic across multiple servers, enhancing performance and reliability.
+   dpservice employs [Maglev hashing](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf) for load balancing, a technique that ensures even, sticky and addition/deletion resistant distribution of traffic across multiple servers, enhancing performance and reliability.
 6. **NAT64 for IPv6 Overlay:**
-   dpservice supports NAT64, a mechanism that allows IPv6-only overlay clients to communicate with IPv4 servers, facilitating the transition to IPv6.
+   dpservice supports [NAT64](https://en.wikipedia.org/wiki/NAT64), a mechanism that allows IPv6-only overlay clients to communicate with IPv4 servers, facilitating the transition to IPv6.
 7. **Protocol Support:**
    The service supports essential networking protocols on its downlink ports such as DHCPv4, DHCPv6, Neighbor Discovery, and ARP, ensuring comprehensive network management and operation.
 8. **Firewall:**
    Each created virtual interface on dpservice can also receive egress/ingress firewall rules via gRPC which are stateful and conntracked.
+9. **Observability:**
+   dpservice provides Prometheus metrics for monitoring and observability, allowing users to track network performance and troubleshoot issues effectively.
 
 ##### dpservice Design / Architecture
 
-dpservice is a user space application which can be visualized together with SRIOV aspect as seen in the diagram below:
+dpservice is a user space application which can be visualized together with SRIOV and Promethous based observability aspects as seen in the diagram below. It can be deployed on a compute node/hypervisor to bring virtual machines to overlay network and/or on a bare-metal server with SmartNIC to bring the bare-metal server to overlay network, in latter case dpservice needs to run directly on SmartNIC.
 
-![](/assets/images/20240602_182647_overview.png)
+[![Overall Architecture](/assets/images/overall_dpservice.png)](/assets/images/overall_dpservice.png)
 
 
+The dpservice utilizes a sophisticated graph-based dataplane using [DPDK Graph library](https://doc.dpdk.org/guides/prog_guide/graph_lib.html), which can be visualized in the detailed diagram as below:
 
-The dpservice utilizes a sophisticated graph-based dataplane, which can be visualized in the detailed diagram as below:
-
-![](/assets/images/20240602_183806_dataplane.png)
+[![Dataplane Architecture](/assets/images/20240602_183806_dataplane.png)](/assets/images/20240602_183806_dataplane.png)
 
 
 
@@ -73,12 +73,10 @@ Deploying dpservice can be done on a compute node/hypervisor to bring virtual ma
 
 * Data Centers (on-premise):
   Enhancing the performance of data center networks by providing fast and efficient routing and network management.
-* Telecommunications:
-  Supporting high-speed data transfer and network functions in telecom infrastructure.
 * Enterprise Networks:
   Enabling advanced SDN features and improving network performance in large enterprise environments.
 
 ##### Conclusion
 
-dpservice represents a significant advancement in data plane services, offering high-speed packet processing, advanced networking capabilities, and robust scalability. By leveraging DPDK, it provides a powerful solution for modern network demands, making it a valuable tool for data centers, telecom operators, and large enterprises looking to enhance their network performance.
+dpservice represents a significant advancement in data plane services, offering high-speed packet processing, advanced networking capabilities, and robust scalability. By leveraging DPDK, it provides a powerful solution for modern network demands, making it a valuable tool for data centers and large enterprises looking to enhance their network performance.
 
